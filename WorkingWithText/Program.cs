@@ -11,9 +11,18 @@ namespace WorkingWithText
         // to see if there are duplicates. If so, return bool True; otherwise, return bool False.
         public static bool AreThereDuplicates(string hyphenNum)
         {
-            return default;
+
+            string[] nums = hyphenNum.Split('-', StringSplitOptions.RemoveEmptyEntries);
+            if (nums.Count() != nums.Distinct().Count())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        
+
         // 2- Write a method that accepts a string of numbers separated by a hyphen. If the input 
         // is NOT in the correct format OR is NOT consecutive then return bool False. If the format 
         // is correct AND the numbers are consecutive, return bool True. For
@@ -21,7 +30,28 @@ namespace WorkingWithText
         // Do not use .Sort, it will cause the test to pass when it actually does not.
         public static bool IsConsecutive(string hyphenNum)
         {
-            return default;
+            string[] nums = hyphenNum.Split('-');
+            int intTest = 0;
+            
+            bool bolGood = true;
+
+            
+            
+            for (int i = 0; i < nums.Length - 1; i++)
+            {
+                if(int.TryParse(nums[i], out intTest) == false || int.TryParse(nums[i + 1], out intTest) == false)
+                {
+                    bolGood = false;
+                    break;
+                }
+                if (Convert.ToInt32(nums[i]) - Convert.ToInt32(nums[i + 1]) != 1 && Convert.ToInt32(nums[i]) - Convert.ToInt32(nums[i + 1]) != -1)
+                {
+                    bolGood = false;
+                }
+            }
+
+            return bolGood;
+
         }
 
         // 3- Write a method that accepts a string of a time 24-hour time format
@@ -30,8 +60,37 @@ namespace WorkingWithText
         // consider it as False. Make sure that its returns false if any letters are passed.
         public static bool IsValidTime(string hyphenNum)
         {
- 			return default;
+            string[] times;
+            int hour;
+            int minute;
+            bool bolValid;
+            if (string.IsNullOrEmpty(hyphenNum) == false && hyphenNum[2] == ':')
+            {
+                times = hyphenNum.Split(':');
+                if (int.TryParse(times[0], out hour) == false || times.Length > 2)
+                {
+                    bolValid = false;
+                }
+                else if (int.TryParse(times[1], out minute) == false)
+                {
+                    bolValid = false;
+                }
+                else if (hour < 0 || hour > 23 || minute < 0 || minute > 59)
+                {
+                    bolValid = false;
+                }
+                else
+                {
+                    bolValid = true;
+                }
+            }
+            else
+            {
+                bolValid = false;
+            }
+            return bolValid;
         }
+
 
         // 4- Write a method that accepts a string of a few words separated by a space. Use the
         // words to create a variable name with PascalCase. For example, if the user types: "number
@@ -40,7 +99,21 @@ namespace WorkingWithText
         // Trim off unneeded spaces.
         public static string PascalConverter(string aFewWords)
         {
-        	return default;
+            string[] words;
+            if (!String.IsNullOrEmpty(aFewWords))
+            {
+                words = aFewWords.Trim().Split(' ');
+
+                string final = "";
+
+                foreach (string s in words)
+                {
+                    final += s[0].ToString().ToUpper() + s.Substring(1).ToLower();
+                }
+                return final.Trim();
+            }
+            return "";
+
         }
 
         // 5- Write a method that accepts an English word. Count the number of vowels
@@ -48,7 +121,16 @@ namespace WorkingWithText
         // return 6.
         public static int VowelCounter(string aWord)
         {
-            return default;
+            string[] vowels = { "a", "e", "i", "o", "u" };
+            int totalVowels = 0;
+            foreach (char c in aWord)
+            {
+                if (vowels.Contains(c.ToString().ToLower()))
+                {
+                    totalVowels += 1;
+                }
+            }
+            return totalVowels;
         }
     }
 
